@@ -10,15 +10,19 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::group(['prefix' => 'admin'], function () 
+Route::get('login','Auth\LoginController@getLogin')->name('login');
+Route::post('login','Auth\LoginController@postLogin');
+Route::get('logout','Auth\LogoutController@Logout')->name('logout');
+
+Route::group(['prefix' => 'admin','middleware'=>'check'], function ()
 {
     Route::get('/', function()
     {
         return view('admins.index');
-    })->name('admin.dashboard');
+    });
 });
 
